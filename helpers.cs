@@ -1,6 +1,6 @@
 namespace BrowsePRT;
 
-public static class Helpers
+public static class Helper
 {
     public static string GetBrowserCoreFilepath()
     {

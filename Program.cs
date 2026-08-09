@@ -1,10 +1,4 @@
-﻿//create named pipe
-//start cmd with exe
-//write to pipe
-//read from pipe
-//close process
-//close pipe
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using BrowsePRT;
 
 using (Process cmd = new Process())
@@ -17,7 +11,7 @@ using (Process cmd = new Process())
         Task serverTask = srv.StartAsync();
 
         cmd.StartInfo.FileName = "cmd.exe";
-        cmd.StartInfo.Arguments = $"/d /c \"{Helpers.GetBrowserCoreFilepath()}\" < \\\\.\\pipe\\{srv.PipeName} > \\\\.\\pipe\\{srv.PipeName}";
+        cmd.StartInfo.Arguments = $"/d /c \"{Helper.GetBrowserCoreFilepath()}\" < \\\\.\\pipe\\{srv.PipeName} > \\\\.\\pipe\\{srv.PipeName}";
         cmd.StartInfo.UseShellExecute = false;
         cmd.Start();
 

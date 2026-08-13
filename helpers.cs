@@ -1,15 +1,18 @@
-namespace BrowsePRT;
-
-public static class Helper
+namespace BrowsePRT
 {
-    public static string GetBrowserCoreFilepath()
+    public static class Helper
     {
-        List<string> filelocs = [
-            @"C:\Program Files\Windows Security\BrowserCore\browsercore.exe",
-            @"C:\Windows\BrowserCore\browsercore.exe"
-        ];
+        public static string GetBrowserCoreFilepath()
+        {
+            List<string> filelocs = new List<string>()
+            {
+                @"C:\Program Files\Windows Security\BrowserCore\browsercore.exe",
+                @"C:\Windows\BrowserCore\browsercore.exe"
+            };
 
-        return filelocs.FirstOrDefault(File.Exists)
-            ?? throw new FileNotFoundException("Could not find browsercore.exe");
+            return filelocs.FirstOrDefault(File.Exists)
+                ?? throw new FileNotFoundException("Could not find browsercore.exe");
+        }
     }
 }
+

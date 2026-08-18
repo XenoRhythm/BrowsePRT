@@ -8,11 +8,7 @@ class Program
     {
         using (Process cmd = new Process())
         {
-            System.Console.WriteLine("Enter nonce: ");
-            string nonce = Console.ReadLine()
-                ?? throw new InvalidOperationException("Nonce is required.");
-
-            using (var srv = new Server(nonce))
+            using (var srv = new Server(Helper.RequestNonce()))
             {
                 Task serverTask = srv.StartAsync();
 
